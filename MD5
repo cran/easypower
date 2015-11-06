@@ -1,0 +1,17 @@
+665323859191c9760ef20487484be8da *DESCRIPTION
+fb89eee5308cb9df730b9a3142f8c7cb *NAMESPACE
+90f5393144d2f183c3e33c4bb551c9ed *R/easypower.R
+efc9e8adb314bba9e06b03265862ac02 *R/f2_functions.R
+b5dc5dca7d0b12927208f6406df332eb *R/n_multiway.R
+78625787f1dbe146449a14376e3e719c *R/n_oneway.R
+110c04a59eb4e58a8633b2f2e288c2fd *R/names_levels_df.R
+5c1ed931188ab8cd8825c2102f56304f *R/power_calculations.R
+2eb7a7c54273780127b53652c5aa0abe *R/print_output_functions.R
+b64ff344c8b291e83c4a68112ba1b0b6 *build/vignette.rds
+86d408c679885b9bf4afd0e42edf9c74 *inst/doc/User_Input.R
+7cda02632632f25af4d2512bc9e53cfd *inst/doc/User_Input.Rmd
+c55586b82ebe92fba6c244c799f4965d *inst/doc/User_Input.html
+5a113649724e84296e70efbb05f31bda *man/easypower.Rd
+cd378b30deb0a84d84378c11720f3874 *man/n.multiway.Rd
+17398ff38ef9f4abb9c3a9600e6acbb0 *man/n.oneway.Rd
+7cda02632632f25af4d2512bc9e53cfd *vignettes/User_Input.Rmd

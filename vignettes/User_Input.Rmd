@@ -1,0 +1,134 @@
+---
+title: "Factorial ANOVA Examples"
+author: "Aaron McGarvey"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Factorial ANOVA Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, echo = FALSE}
+knitr::opts_chunk$set(comment = "#>")
+```
+```{r, eval=TRUE, echo=FALSE}
+library(easypower)
+```
+This vignette is meant to aid users in defining their input. Each function uses a standardized input for the treatments to be used in the functions. This enables the user to get the most out of their results and minimizes the amount of calculations they have to perform. The user may define each treatment/main effect and any interaction effects that they would like to set an effect size for. Below are a series of examples for 2-way and 3-way ANOVAs. Certain details in the 2-way example are repeated in the 3-way example so that the reader does not have to read the entire document. All of the effect sizes used in the examples were converted to eta-squared from Cohen's f. Slight deviations in results could be due to rounding errors.
+
+## 2-way ANOVA Examples
+#### Main Effects
+This example study is a 2x4 ANOVA and is taken from exercise 8.15, p.400 of Cohen (1988). This study is investigating the effects of age (**A**) and contingency of reinforcement (**C**) on learning. All of the effect sizes taken from the exercise were converted from Cohen's f to eta-squared in order to input the numeric equivalent into the calculations. Before the sample size calculations are made, the main effects must be defined. The main effects may be assigned any variable name but for this example they will be called `main.eff1` and `main.eff2`.
+
+```{r, eval = TRUE}
+# Define main effects
+main.eff1 <- list(name = "A", levels = 2, eta.sq = 0.123)
+main.eff2 <- list(name = "C", levels = 4, eta.sq = 0.215)
+```
+
+Each main effect is defined as a list and takes in three different values:
+
+* `name` - The name of the treatment effect. This may be either a character string of the treatment name, an abbreviation, or a single character such as "A".
+* `levels` - The number of levels/groups in the treatment. This is always an integer that is 2 or greater.
+* `eta.sq` - Estimated effect size for the treatment effect. This can be either a numeric value greater than 0 or a character string. Acceptable string values and their numeric equivalents are: "small" (0.01), "med" (0.06), and "large" (0.14).
+
+**Note**: If the effect size for a main effect is going to be "small" then the value of `eta.sq` does not need to be included when creating the list for the main effect. There is a default setting of "small" for this value. 
+```{r, eval=FALSE}
+# Example of using the default eta.sq setting
+main.eff <- list(name = "A", levels = 3)
+```
+
+#### Interaction Effect Size (optional)
+For this example, the effect size of the interaction is known. The default setting for interactions is set "small", but this can be changed in two different ways. The first way is to define the interaction the same way we defined the main effects and change its effect size from "small" to some other value. This interaction effect can be assigned any value similar to the main effect names; for this example it will be called `int.eff1`. The `name` of the interaction must be comprised of the names given to the treatments when the main effects were defined. The names must be separated by a "*". Assigning the value for the estimated effect size follows the same set of conditions as the main effect's effect size.
+
+```{r, eval=TRUE}
+# Change interaction effect size
+int.eff1 <- list(name = "A*C", eta.sq = 0.079)
+```
+
+The alternative way is to change the default value of `interaction.eta2 = "small"` when calling the n.multiway function. Since there is only one interaction in a 2-way ANOVA, this would be the quicker way to change the interaction effect size. For this example the value will change to `interaction.eta2 = 0.079`.
+
+#### Running n.multiway
+Running the function to calculate the sample size requirements for the example study. 
+```{r, eval = TRUE, collapse=TRUE}
+n.multiway(iv1 = main.eff1, iv2 = main.eff2, int1 = int.eff1)
+```
+
+Here is an example of changing the value of `interaction.eta2`:
+```{r, eval = TRUE, collapse=TRUE}
+n.multiway(iv1 = main.eff1, iv2 = main.eff2, interaction.eta2 = 0.079)
+```
+It is possible to change the amount of output that is displayed. The default is set to `result = "all"`. Acceptable alternatives are `result = "highest"` for the highest recommended sample size and `result = "select"` to view the highest result along with the treatments where a numeric effect size value was entered.
+```{r, eval=TRUE, collapse=TRUE}
+n.multiway(iv1 = main.eff1, iv2 = main.eff2, int1 = int.eff1, result = "highest")
+```
+```{r, eval=TRUE, collapse=TRUE}
+n.multiway(iv1 = main.eff1, iv2 = main.eff2, int1 = int.eff1, result = "select")
+```
+
+## 3-way ANOVA Examples
+#### Main Effects
+This example study is a 2x3x4 ANOVA taken from exercise 8.14, p.397 of Cohen (1988). All of the effect sizes taken from the exercise were converted from Cohen's f to eta-squared in order to input the numeric equivalent into the calculations. For this example the main effects will be assigned the variable names: `main.eff1`, `main.eff2`, and `main.eff3`.
+```{r, eval = TRUE}
+# Define main effects
+main.eff1 <- list(name = "Sex", levels = 2, eta.sq = 0.0099)
+main.eff2 <- list(name = "Age", levels = 3, eta.sq = 0.0588)
+main.eff3 <- list(name = "Conditions", levels = 4, eta.sq = 0.1506)
+```
+
+Each main effect is defined as a list and takes in three different values:
+
+* `name` - The name of the treatment effect. This may be either a character string of the treatment name, an abbreviation, or a single character such as "A".
+* `levels` - The number of levels/groups in the treatment. This is always an integer that is 2 or greater.
+* `eta.sq` - Estimated effect size for the treatment effect. This can be either a numeric value greater than 0 or a character string. Acceptable string values and their numeric equivalents are: "small" (0.01), "med" (0.06), and "large" (0.14).
+
+**Note**: If the effect size for a main effect is going to be "small" then the value of `eta.sq` does not need to be included when creating the list for the main effect. There is a default setting of "small" for this value. 
+```{r, eval=FALSE}
+# Example of using the default eta.sq setting
+main.eff <- list(name = "A", levels = 3)
+```
+
+#### Interaction Effect Sizes (optional)
+
+As noted in the 2-way ANOVA example, there are two different ways to change the effect sizes for the interactions. For this example, all of the effect sizes for the interaction effects were estimated to be approximately a medium effect. Therefore the most efficient way to change all the effect sizes simultaneously is to use `interaction.eta2 = 0.0588`. Alternatively, if only a selection of the interactions were expected to have a moderate effect size, we could change these independently. The following is an example of how this could be achieved.
+
+```{r, eval=TRUE}
+# Changing the effect sizes of specific interactions
+int.eff1 <- list(name = "Age*Conditions", eta.sq = "med")
+int.eff2 <- list(name = "Sex*Conditions", eta.sq = "med")
+```
+
+**Note**: When typing out the name of an interaction it is important to follow the order in which the main effects were defined. For example, `name = "Age*Conditions"` is valid whereas `name = "Conditions*Age"` would not be.
+
+#### Running n.multiway
+```{r, eval=TRUE, collapse=TRUE}
+n.multiway(iv1 = main.eff1, iv2 = main.eff2, iv3 = main.eff3, interaction.eta2 = 0.0588)
+```
+
+Here is an example of running the function while only changing the effect sizes of the two interactions we defined earlier.
+```{r, eval=TRUE, collapse=TRUE}
+n.multiway(iv1 = main.eff1, iv2 = main.eff2, iv3 = main.eff3, int1 = int.eff1, int2 = int.eff2)
+```
+
+## Comparisons with G*Power 3 and Cohen
+
+The example study used for this table is taken from exercise 8.14, p.397 of Cohen (1988).
+This is a 2x3x4 ANOVA. This example was also used in the 3-way ANOVA example. The power and significance level used for these calculations are 0.80 and 0.05, respectively.
+
+
+| Treatment | Numerator df |Effect Size (f)| easypower n  | GPower n  | Cohen n |
+|:---------:|:------------:|:-------------:|:------------:|:---------:|:-------:|
+|   S       |     1        |       0.10    |      34      |   33      |  34     |
+|  A        |   2          |        0.25   |    8         |   7       | 8       |  
+|  C        |   3          |        0.40   |    4         |   3       | 4       | 
+|  SxA      |   2          |        0.25   |    8         |   7       | 8       | 
+|  SxC      |   3          |       0.25    |    9         |   8       | 9       |
+|  AxC      |   6          |       0.25    |    11        |   9       | 10      |
+|  SxAxC    |   6          |        0.25   |    11        |   9       | 10      |
+
+
+## References
+Cohen, J. (1988). *Statistical power analysis for the behavioral sciences* (2nd ed.). Hillsdale, N.J.: Lawrence Erlbaum Associates.
+
+Faul, F., Erdfelder, E., Lang, A., & Buchner, A. (2007). G*Power 3: A flexible statistical power analysis program for the social, behavioral, and biomedical sciences. _Behavior Research Methods_, 39, 175-191.
+
